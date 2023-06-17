@@ -1,9 +1,8 @@
-package xieliangji.open.kafkademo.config;
+package xieliangji.open.kafkademo.event;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import xieliangji.open.kafkademo.event.DemoEvent;
 
 import java.io.IOException;
 
@@ -13,7 +12,7 @@ public class DemoKafkaDeserializer implements org.apache.kafka.common.serializat
     @Override
     public DemoEvent deserialize(String topic, byte[] data) {
         try {
-            return new ObjectMapper().readerFor(DemoEvent.class).readValue(data);
+            return new ObjectMapper().readValue(data, DemoEvent.class);
         } catch (IOException e) {
             log.error("deserialize error: {}", e.getMessage());
             throw new RuntimeException(e);
