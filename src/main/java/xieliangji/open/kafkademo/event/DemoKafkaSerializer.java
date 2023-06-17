@@ -23,6 +23,7 @@ public class DemoKafkaSerializer implements org.apache.kafka.common.serializatio
         try {
             return new ObjectMapper().writeValueAsBytes(data);
         } catch (JsonProcessingException e) {
+            log.error("kafka serialize error: {}", e.getMessage());
             throw new RuntimeException(e);
         }
     }
