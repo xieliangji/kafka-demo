@@ -40,3 +40,46 @@
 >
 > [click pom.xml for lookup](pom.xml)
 ---
+
+## Redis quickstart
+
+> **Install**
+>
+> > [click for Redis Installation detail](https://redis.io/docs/getting-started/installation/)
+> >
+> > [redis data types](https://redis.io/docs/data-types/)
+> 
+> > `$ sudo vi /etc/redis/redis.conf`
+> >
+> > change `bind` for remoting connect, change `protected-mode no` for no auth.
+> >
+> > `$ sudo systemctl enable redis-server` enable redis service unit
+> >
+> > `$ sudo systemctl restart redis` restart redis server
+> >
+> **Check Installation**
+>
+> > `$ redis-cli`
+> >
+> > `127.0.0.1:6379> set hello redis`
+> >
+> > `127.0.0.1:6379> get hello`
+> >
+> > `"redis"`
+--- 
+
+## Redis Insight Install
+
+> redis gui
+---
+
+## Springboot + Redis
+```xml
+<!-- dependency -->
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-data-redis</artifactId>
+    </dependency>
+</dependencies>
+```
