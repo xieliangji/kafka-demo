@@ -2,7 +2,6 @@ package xieliangji.open.kafkademo.consumer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 import xieliangji.open.kafkademo.event.DemoEvent;

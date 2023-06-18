@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration debug="true">
+    <import class="ch.qos.logback.core.ConsoleAppender"/>
+    <import class="ch.qos.logback.classic.encoder.PatternLayoutEncoder"/>
+    <import class="ch.qos.logback.classic.sift.SiftingAppender"/>
+    <import class="ch.qos.logback.core.FileAppender"/>
+    <import class="ch.qos.logback.classic.PatternLayout"/>
+    <import class="ch.qos.logback.core.rolling.RollingFileAppender"/>
+    <import class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy"/>
+    <!-- kafka appender -->
+    <import class="com.github.danielwegener.logback.kafka.KafkaAppender"/>
+    <import class="com.github.danielwegener.logback.kafka.keying.NoKeyKeyingStrategy"/>
+    <import class="com.github.danielwegener.logback.kafka.delivery.AsynchronousDeliveryStrategy"/>
+
+    <property name="PATTERN"
+              value="%boldGreen(%d{yyyy-MM-dd HH:mm:ss.SSS}) [%thread{15}] %highlight(%-5level) %cyan(%logger{15}) %4line -%kvp- %msg %n"/>
+
+    <appender name="KAFKA" class="KafkaAppender">
+        <encoder class="PatternLayoutEncoder">
+            <pattern>${PATTERN}</pattern>
+        </encoder>
+        <topic>xieliangji.open.demo</topic>
+        <keyingStrategy class="NoKeyKeyingStrategy"/>
+        <deliveryStrategy class="AsynchronousDeliveryStrategy"/>
+        <producerConfig>bootstrap.servers=122.51.180.68:9092</producerConfig>
+        <producerConfig>acks=0</producerConfig>
+        <producerConfig>linger.ms=1000</producerConfig>
+        <producerConfig>max.block.ms=0</producerConfig>
+        <producerConfig>client.id=${HOSTNAME}-logback-relaxed}</producerConfig>
+    </appender>
+
+    <appender name="CONSOLE" class="ConsoleAppender">
+        <encoder class="PatternLayoutEncoder">
+            <pattern>${PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="SIFT" class="SiftingAppender">
+        <discriminator>
+            <key>uuid</key>
+            <defaultValue>none</defaultValue>
+        </discriminator>
+        <sift>
+            <appender name="uuid-${uuid}" class="FileAppender">
+                <file>uuid-${uuid}.log</file>
+                <append>false</append>
+                <layout class="PatternLayout">
+                    <pattern>${PATTERN}</pattern>
+                </layout>
+            </appender>
+        </sift>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="SIFT"/>
+        <appender-ref ref="KAFKA"/>
+    </root>
+</configuration>
